@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.mylibrary1.MyLibrary1;
+import com.example.mylibrary2.MyLibrary2;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView;
@@ -15,6 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textview);
 
-        textView.setText(MyLibrary1.getMessage1());
+        textView.setText(MyLibrary1.getMessage1() + "," + MyLibrary2.getMessage2());
     }
 }

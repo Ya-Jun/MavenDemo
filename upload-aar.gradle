@@ -1,0 +1,60 @@
+apply plugin: 'maven-publish'
+
+//上传groupId名称
+def MAVEN_GROUPID = 'com.demo'
+//maven私服用户名
+def MAVEN_USERNAME = 'admin'
+//maven私服密码
+def MAVEN_PASSWORD = 'admin123'
+
+def MAVEN_URL = 'http://localhost:8081/repository/maven-releases/'
+
+
+publishing {
+    publications {
+        uploadSDK(MavenPublication) {
+            groupId MAVEN_GROUPID
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.withType(ModuleDependency) { ModuleDependency dp ->
+                    if (dp.version != "unspecified") {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dp.group)
+                        dependencyNode.appendNode('artifactId', dp.name)
+                        dependencyNode.appendNode('version', dp.version)
+
+                        if (dp.excludeRules.size() > 0) {
+                            def exclusions = dependencyNode.appendNode('exclusions')
+                            dp.excludeRules.each { ExcludeRule ex ->
+                                def exclusion = exclusions.appendNode('exclusion')
+                                exclusion.appendNode('groupId', ex.group)
+                                exclusion.appendNode('artifactId', ex.module)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url MAVEN_URL
+            credentials {
+                username MAVEN_USERNAME
+                password MAVEN_PASSWORD
+            }
+        }
+    }
+
+}
+
+task publishToMaven(dependsOn: ['assemble', 'publish']) {
+    doLast {
+        println "finish publish to maven"
+    }
+}
+
+publishToMaven.setGroup('SDKPush')
+
+

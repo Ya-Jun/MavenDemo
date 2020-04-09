@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../upload-aar.gradle'
 
 android {
     compileSdkVersion 29
@@ -8,11 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        versionCode 1000
+        versionName "1.0.0.0"
     }
 
     buildTypes {
@@ -27,4 +25,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:+'
+}
+
+
+//maven配置
+publishing {
+    publications {
+        uploadSDK(MavenPublication) {
+            artifact "build/outputs/aar/mylibrary2-release.aar"
+            artifactId "MyLibrary2"
+            version android.defaultConfig.versionName
+        }
+    }
 }

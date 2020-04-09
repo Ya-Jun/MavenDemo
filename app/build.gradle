@@ -23,6 +23,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:+'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-//    implementation 'com.demo:MavenDemo:1.0.0.0'
-    implementation project(':mylibrary1')
+
+//    implementation project(':mylibrary1')
+    implementation 'com.demo:MyLibrary1:1.0.0.0'
 }
