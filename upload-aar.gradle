@@ -55,6 +55,6 @@ task publishToMaven(dependsOn: ['assemble', 'publish']) {
     }
 }
 
-publishToMaven.setGroup('SDKPush')
+publishToMaven.setGroup('upload')
 
 
